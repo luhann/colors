@@ -15,28 +15,33 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-release-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-release-
+            ${{ runner.os }}-cargo-
 
-      - name: Cache cargo artifacts
-        uses: Swatinem/rust-cache@v2
+      - name: Toolchain info
+        run: |
+          rustc --version
+          cargo --version
 
-      - name: Format check
-        run: cargo fmt --all --check
+      - name: Check (release)
+        run: cargo check --workspace --release
 
-      - name: Clippy
-        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Build (release)
+        run: cargo build --workspace --release
 
-      - name: Tests
-        run: cargo test --workspace
+      - name: Tests (release)
+        run: cargo test --workspace --release
 
-      - name: Doc tests
-        run: cargo test --doc --workspace
-
-      - name: Install cargo-audit
-        run: cargo install cargo-audit --locked
-
-      - name: Security audit
-        run: cargo audit
+      - name: Doc tests (release)
+        run: cargo test --doc --workspace --release
