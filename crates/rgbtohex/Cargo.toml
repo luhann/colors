@@ -1,0 +1,20 @@
+[package]
+name = "rgbtohex"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/luhann/colors"
+authors = ["Luke Hannan"]
+description = "Convert RGB color values to hex"
+
+[lib]
+name = "rgbtohex"
+path = "src/lib.rs"
+
+[dependencies]
+clap = { version = "4.5.43", features = ["derive"], optional = true }
+colored = { version = "3.0.0", optional = true }
+
+[features]
+default = []
+cli = ["dep:clap", "dep:colored"]

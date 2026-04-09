@@ -1,0 +1,7 @@
+# Workspace build artifacts
+/target/
+
+# Optional local outputs
+coverage/
+*.profraw
+*.profdata

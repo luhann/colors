@@ -1,0 +1,12 @@
+[package]
+name = "black"
+version = "0.2.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/luhann/colors"
+authors = ["Luke Hannan"]
+description = "Analyze black pixel percentage in images"
+
+[dependencies]
+image = { version = "0.25.9", default-features = false, features = ["gif", "jpeg", "png", "tiff", "webp"] }
+rayon = "1.10.0"

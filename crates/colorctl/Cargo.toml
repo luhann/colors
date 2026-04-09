@@ -1,0 +1,21 @@
+[package]
+name = "colorctl"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/luhann/colors"
+authors = ["Luke Hannan"]
+description = "Unified color manipulation CLI and toolkit"
+default-run = "colorctl"
+
+[[bin]]
+name = "colorctl"
+path = "src/main.rs"
+
+[dependencies]
+black = { path = "../black" }
+clap = { version = "4.5.43", features = ["derive"] }
+colored = "3.0.0"
+hextorgb = { path = "../hextorgb", features = ["cli"] }
+rgbtohex = { path = "../rgbtohex", features = ["cli"] }
+rayon = "1.10.0"
