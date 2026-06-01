@@ -8,6 +8,8 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  # Set the target as an env variable to keep commands clean
+  TARGET: x86_64-unknown-linux-musl 
 
 jobs:
   checks:
@@ -17,6 +19,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      # 1. Install the musl compiler tools on the Ubuntu host
+      - name: Install musl tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
+
+      # 2. Use the official rust-toolchain action to easily add the target
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-musl
+
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -24,24 +38,25 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: ${{ runner.os }}-cargo-release-${{ hashFiles('**/Cargo.lock') }}
+          # Added target to the cache key so musl artifacts are cached correctly
+          key: ${{ runner.os }}-cargo-musl-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            ${{ runner.os }}-cargo-release-
-            ${{ runner.os }}-cargo-
+            ${{ runner.os }}-cargo-musl-
 
       - name: Toolchain info
         run: |
           rustc --version
           cargo --version
 
+      # 3. Append --target to your cargo commands
       - name: Check (release)
-        run: cargo check --workspace --release
+        run: cargo check --workspace --release --target $TARGET
 
       - name: Build (release)
-        run: cargo build --workspace --release
+        run: cargo build --workspace --release --target $TARGET
 
       - name: Tests (release)
-        run: cargo test --workspace --release
+        run: cargo test --workspace --release --target $TARGET
 
       - name: Doc tests (release)
-        run: cargo test --doc --workspace --release
+        run: cargo test --doc --workspace --release --target $TARGET
