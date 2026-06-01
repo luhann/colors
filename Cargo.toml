@@ -1,23 +1,13 @@
-[package]
-name = "colors"
-version = "0.1.0"
-edition = "2024"
-publish = false
-license = "MIT"
-authors = ["Luke Hannan"]
-
 [workspace]
 members = [
-    "crates/black",
-    "crates/hextorgb",
-    "crates/rgbtohex",
-    "crates/colorctl",
+    "crates/*",
 ]
 default-members = ["crates/colorctl"]
+resolver = "3"
 
 [workspace.dependencies]
 black = { path = "crates/black" }
-clap = { version = "4.5.43", features = ["derive"] }
+clap = { version = "4.6.1", features = ["derive"] }
 colored = "3.0.0"
 hextorgb = { path = "crates/hextorgb", features = ["cli"] }
 image = { version = "0.25.9", default-features = false, features = ["gif", "jpeg", "png", "tiff", "webp"] }
