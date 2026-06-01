@@ -13,9 +13,9 @@ name = "colorctl"
 path = "src/main.rs"
 
 [dependencies]
-black = { path = "../black" }
-clap = { version = "4.5.43", features = ["derive"] }
-colored = "3.0.0"
-hextorgb = { path = "../hextorgb", features = ["cli"] }
-rgbtohex = { path = "../rgbtohex", features = ["cli"] }
-rayon = "1.10.0"
+black = { workspace = true }
+clap = { workspace = true }
+colored = { workspace = true }
+hextorgb = { workspace = true }
+rgbtohex = { workspace = true }
+rayon = { workspace = true }

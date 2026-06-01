@@ -12,8 +12,8 @@ name = "rgbtohex"
 path = "src/lib.rs"
 
 [dependencies]
-clap = { version = "4.5.43", features = ["derive"], optional = true }
-colored = { version = "3.0.0", optional = true }
+clap = { workspace = true, optional = true }
+colored = { workspace = true, optional = true }
 
 [features]
 default = []

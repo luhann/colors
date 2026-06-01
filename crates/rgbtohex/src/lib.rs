@@ -60,9 +60,15 @@ pub fn parse_rgb(rgb: &str) -> Result<([u8; 3], Option<f64>), &'static str> {
         return Err("Invalid RGB format");
     }
 
-    let r = parts[0].parse::<u8>().map_err(|_| "Invalid RGB component value")?;
-    let g = parts[1].parse::<u8>().map_err(|_| "Invalid RGB component value")?;
-    let b = parts[2].parse::<u8>().map_err(|_| "Invalid RGB component value")?;
+    let r = parts[0]
+        .parse::<u8>()
+        .map_err(|_| "Invalid RGB component value")?;
+    let g = parts[1]
+        .parse::<u8>()
+        .map_err(|_| "Invalid RGB component value")?;
+    let b = parts[2]
+        .parse::<u8>()
+        .map_err(|_| "Invalid RGB component value")?;
 
     let alpha = if parts.len() == 4 {
         let a = parts[3].parse::<f64>().map_err(|_| "Invalid alpha value")?;
@@ -98,8 +104,17 @@ pub fn convert_rgb_to_format(rgb: &str, format: &str) -> Result<String, String> 
     let (rgb, alpha) = parse_rgb(rgb).map_err(|e| e.to_string())?;
 
     let converted = match alpha {
-        Some(a) => Color::Rgba { r: rgb[0], g: rgb[1], b: rgb[2], a },
-        None => Color::Rgb { r: rgb[0], g: rgb[1], b: rgb[2] },
+        Some(a) => Color::Rgba {
+            r: rgb[0],
+            g: rgb[1],
+            b: rgb[2],
+            a,
+        },
+        None => Color::Rgb {
+            r: rgb[0],
+            g: rgb[1],
+            b: rgb[2],
+        },
     };
 
     let output = match format {

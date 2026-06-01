@@ -1,7 +1,10 @@
+use std::{
+    path::Path,
+    time::{SystemTime, UNIX_EPOCH},
+};
+
 use black::{black, is_image_file};
 use image::{ImageBuffer, Rgb};
-use std::path::Path;
-use std::time::{SystemTime, UNIX_EPOCH};
 
 fn write_test_image(filename: &str, pixels: &[[u8; 3]], width: u32, height: u32) -> String {
     let mut image = ImageBuffer::<Rgb<u8>, Vec<u8>>::new(width, height);
@@ -18,14 +21,20 @@ fn write_test_image(filename: &str, pixels: &[[u8; 3]], width: u32, height: u32)
         .expect("system clock should be after unix epoch")
         .as_nanos();
     path.push(format!("black-test-{}-{}.png", filename, nanos));
-    image.save(&path).expect("test image should be written to temp dir");
+    image
+        .save(&path)
+        .expect("test image should be written to temp dir");
     path.to_string_lossy().to_string()
 }
 
 #[test]
 fn black_percentage_matches_expected_in_sequential_mode() {
-    let path =
-        write_test_image("sequential", &[[0, 0, 0], [255, 255, 255], [0, 0, 0], [255, 0, 0]], 2, 2);
+    let path = write_test_image(
+        "sequential",
+        &[[0, 0, 0], [255, 255, 255], [0, 0, 0], [255, 0, 0]],
+        2,
+        2,
+    );
 
     let percentage = black(Path::new(&path), false).expect("image should be processed");
     assert!((percentage - 50.0).abs() < f64::EPSILON);
@@ -35,8 +44,12 @@ fn black_percentage_matches_expected_in_sequential_mode() {
 
 #[test]
 fn black_percentage_matches_expected_in_parallel_mode() {
-    let path =
-        write_test_image("parallel", &[[0, 0, 0], [255, 255, 255], [0, 0, 0], [255, 0, 0]], 2, 2);
+    let path = write_test_image(
+        "parallel",
+        &[[0, 0, 0], [255, 255, 255], [0, 0, 0], [255, 0, 0]],
+        2,
+        2,
+    );
 
     let percentage = black(Path::new(&path), true).expect("image should be processed");
     assert!((percentage - 50.0).abs() < f64::EPSILON);
@@ -48,7 +61,14 @@ fn black_percentage_matches_expected_in_parallel_mode() {
 fn sequential_and_parallel_results_match() {
     let path = write_test_image(
         "parity",
-        &[[0, 0, 0], [0, 0, 0], [0, 0, 0], [255, 255, 255], [255, 255, 255], [255, 255, 255]],
+        &[
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+            [255, 255, 255],
+            [255, 255, 255],
+            [255, 255, 255],
+        ],
         3,
         2,
     );

@@ -1,5 +1,5 @@
 # Workspace build artifacts
-/target/
+target/
 
 # Optional local outputs
 coverage/

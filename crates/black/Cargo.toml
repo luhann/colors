@@ -8,5 +8,5 @@ authors = ["Luke Hannan"]
 description = "Analyze black pixel percentage in images"
 
 [dependencies]
-image = { version = "0.25.9", default-features = false, features = ["gif", "jpeg", "png", "tiff", "webp"] }
-rayon = "1.10.0"
+image = { workspace = true }
+rayon = { workspace = true }

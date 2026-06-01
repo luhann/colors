@@ -1,6 +1,7 @@
+use std::path::Path;
+
 use image::ImageReader;
 use rayon::prelude::*;
-use std::path::Path;
 
 /// Analyze an image file and compute the percentage of black pixels.
 ///

@@ -1,7 +1,9 @@
-use std::fs;
-use std::io::{self, Write};
-use std::path::Path;
-use std::process::ExitCode;
+use std::{
+    fs,
+    io::{self, Write},
+    path::Path,
+    process::ExitCode,
+};
 
 use clap::{Parser, Subcommand};
 use colored::*;
@@ -80,12 +82,18 @@ fn run() -> Result<(), String> {
 
     match cli.command {
         Command::Black { path, directory } => run_black(&path, directory),
-        Command::Hex { hex_color, format, interactive, preview } => {
-            run_hex(hex_color, format, interactive, preview)
-        }
-        Command::Rgb { rgb_color, format, interactive, preview } => {
-            run_rgb(rgb_color, format, interactive, preview)
-        }
+        Command::Hex {
+            hex_color,
+            format,
+            interactive,
+            preview,
+        } => run_hex(hex_color, format, interactive, preview),
+        Command::Rgb {
+            rgb_color,
+            format,
+            interactive,
+            preview,
+        } => run_rgb(rgb_color, format, interactive, preview),
     }
 }
 
@@ -143,7 +151,10 @@ fn run_black(path: &str, directory: bool) -> Result<(), String> {
 }
 
 fn print_black_result(path: &Path, percentage: f64) {
-    let filename = path.file_name().and_then(|name| name.to_str()).unwrap_or("unknown");
+    let filename = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or("unknown");
     println!("{}: {:.2}%", filename.green(), percentage);
 }
 
@@ -168,15 +179,22 @@ fn run_hex(
 }
 
 fn run_hex_interactive(format: hextorgb::OutputFormat, preview: bool) -> Result<(), String> {
-    println!("{}", "Hex Converter - Interactive Mode".bright_cyan().bold());
+    println!(
+        "{}",
+        "Hex Converter - Interactive Mode".bright_cyan().bold()
+    );
     println!("{}", "Enter hex colors (type 'quit' to exit)".dimmed());
 
     loop {
         print!("{} ", "hex>".bright_green().bold());
-        io::stdout().flush().map_err(|e| format!("Failed to flush stdout: {}", e))?;
+        io::stdout()
+            .flush()
+            .map_err(|e| format!("Failed to flush stdout: {}", e))?;
 
         let mut input = String::new();
-        io::stdin().read_line(&mut input).map_err(|e| format!("Failed to read input: {}", e))?;
+        io::stdin()
+            .read_line(&mut input)
+            .map_err(|e| format!("Failed to read input: {}", e))?;
 
         let input = input.trim();
         if input.is_empty() {
@@ -218,15 +236,25 @@ fn run_rgb(
 }
 
 fn run_rgb_interactive(format: rgbtohex::OutputFormat, preview: bool) -> Result<(), String> {
-    println!("{}", "RGB Converter - Interactive Mode".bright_cyan().bold());
-    println!("{}", "Enter RGB colors as r,g,b or r,g,b,a (type 'quit' to exit)".dimmed());
+    println!(
+        "{}",
+        "RGB Converter - Interactive Mode".bright_cyan().bold()
+    );
+    println!(
+        "{}",
+        "Enter RGB colors as r,g,b or r,g,b,a (type 'quit' to exit)".dimmed()
+    );
 
     loop {
         print!("{} ", "rgb>".bright_green().bold());
-        io::stdout().flush().map_err(|e| format!("Failed to flush stdout: {}", e))?;
+        io::stdout()
+            .flush()
+            .map_err(|e| format!("Failed to flush stdout: {}", e))?;
 
         let mut input = String::new();
-        io::stdin().read_line(&mut input).map_err(|e| format!("Failed to read input: {}", e))?;
+        io::stdin()
+            .read_line(&mut input)
+            .map_err(|e| format!("Failed to read input: {}", e))?;
 
         let input = input.trim();
         if input.is_empty() {

@@ -103,8 +103,17 @@ pub fn convert_hex_to_format(hex: &str, format: &str) -> Result<String, String> 
     let (rgb, alpha) = parse_hex(hex).map_err(|e| e.to_string())?;
 
     let converted = match alpha {
-        Some(a) => Color::Rgba { r: (rgb[0]), g: (rgb[1]), b: (rgb[2]), a: (a as f64 / 255.0) },
-        None => Color::Rgb { r: (rgb[0]), g: (rgb[1]), b: (rgb[2]) },
+        Some(a) => Color::Rgba {
+            r: (rgb[0]),
+            g: (rgb[1]),
+            b: (rgb[2]),
+            a: (a as f64 / 255.0),
+        },
+        None => Color::Rgb {
+            r: (rgb[0]),
+            g: (rgb[1]),
+            b: (rgb[2]),
+        },
     };
 
     let output = match format {
@@ -192,8 +201,17 @@ pub fn hextorgb(hex: &str) -> String {
     match parse_hex(hex) {
         Ok((rgb, alpha)) => {
             let color = match alpha {
-                Some(a) => Color::Rgba { r: rgb[0], g: rgb[1], b: rgb[2], a: a as f64 / 255.0 },
-                None => Color::Rgb { r: rgb[0], g: rgb[1], b: rgb[2] },
+                Some(a) => Color::Rgba {
+                    r: rgb[0],
+                    g: rgb[1],
+                    b: rgb[2],
+                    a: a as f64 / 255.0,
+                },
+                None => Color::Rgb {
+                    r: rgb[0],
+                    g: rgb[1],
+                    b: rgb[2],
+                },
             };
             color.to_string()
         }

@@ -1,4 +1,4 @@
-# Colors Workspace
+# Colors
 
 A unified Rust workspace for color utilities and image analysis. Organized as a monorepo with specialized libraries for hex-to-RGB conversion, RGB-to-hex conversion, and image black-pixel analysis.
 
